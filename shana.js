@@ -35,7 +35,7 @@ shana.html += '<!DOCTYPE html>' + "\n" +
 	'<pre>' + "\n"
 
 shana.css += '/*!' + "\n" +
-	' * ' + "\n" +
+	' * <3' + "\n" +
 	' */' + "\n" +
 	'pre{font:8px monospace;line-height:3px;color:#ffffff}'
 

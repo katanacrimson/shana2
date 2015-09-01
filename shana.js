@@ -35,12 +35,12 @@ shana.html += '<!DOCTYPE html>' + "\n" +
 	'%style%' + "\n" +
 	'</head>' + "\n" +
 	'<body>' + "\n\t" +
-	'<pre>' + "\n"
+	'<div><pre>' + "\n"
 
 shana.css += '/*!' + "\n" +
 	' * <3' + "\n" +
 	' */' + "\n" +
-	'pre{font-size:8px;font-family:"Consolas","Courier New",monospace;line-height:3px;color:#ffffff;letter-spacing:1px}'
+	'div{display:flex;position:absolute;top:0;bottom:0;right:0;left:0}pre{font-size:8px;font-family:"Consolas","Courier New",monospace;line-height:3px;color:#ffffff;letter-spacing:1px;margin:auto}'
 
 let onNewline = true
 let matches
@@ -90,7 +90,7 @@ while((matches = re.exec(shana2)) !== null) {
 	}
 	shana.html += inner
 }
-shana.html +=	"\t" + '</pre>' + "\n" +
+shana.html +=	"\t" + '</pre></div>' + "\n" +
 	'</body>' + "\n" +
 	'</html>'
 

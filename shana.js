@@ -14,8 +14,11 @@
 // image converted to html via: http://www.text-image.com/convert/
 //
 
+let fileName = 'shana2'
+
 let fs = require('fs')
-let shana2 = fs.readFileSync('./shana2_original.html').toString()
+let shana2 = fs.readFileSync('./' + fileName + '_original.html').toString()
+// HE COMES
 let re = /(?:<(font) color=([\#\w]+)>(#+)<\/font>|<(br)>)/g
 
 let shana = {
@@ -29,7 +32,7 @@ shana.html += '<!DOCTYPE html>' + "\n" +
 	'<head>' + "\n\t" +
 	'<meta charset="utf-8" />' + "\n\t" +
 	'<title>flame haze~</title>' + "\n\t" +
-	'<style style="display:none">%style%</style>' + "\n" +
+	'%style%' + "\n" +
 	'</head>' + "\n" +
 	'<body>' + "\n\t" +
 	'<pre>' + "\n"
@@ -37,7 +40,7 @@ shana.html += '<!DOCTYPE html>' + "\n" +
 shana.css += '/*!' + "\n" +
 	' * <3' + "\n" +
 	' */' + "\n" +
-	'pre{font:8px monospace;line-height:3px;color:#ffffff}'
+	'pre{font-size:8px;font-family:"Consolas","Courier New",monospace;line-height:3px;color:#ffffff;letter-spacing:1px}'
 
 let onNewline = true
 let matches
@@ -56,6 +59,8 @@ while((matches = re.exec(shana2)) !== null) {
 	// mind: strings are 0-indexed, yes, but color codes are pulled in as '#aabbcc' - ignore the 0th character
 	if(!!color && color === 'white') {
 		color = '#fff'
+	} else if(!!color && color === 'black') {
+		color = '#000'
 	} else if (!!color && color.length === 7) {
 		// compress #aabbcc into #abc
 		if(color[1] === color[2] && color[3] === color[4] && color[5] === color[6]) {
@@ -63,7 +68,7 @@ while((matches = re.exec(shana2)) !== null) {
 		}
 	}
 
-	// some "pixel" counting, here. :)
+	// some "pixel" counting, here, just for stat purposes. :)
 	// also how we track what css color classes are actually in use
 	if(!colors[color]) {
 		colors[color] = inner.length
@@ -73,11 +78,9 @@ while((matches = re.exec(shana2)) !== null) {
 
 	// if color = white, or color = #fff, then we're replacing #'s with &nbsp;'s, to speed up browser rendering.
 	if(color === '#fff') {
-		let length = inner.length
-		inner = '&nbsp;'.repeat(length)
+		inner = '&nbsp;'.repeat(inner.length)
 	} else {
-		let colorClass = color.substr(1)
-		inner = '<span class="h' + colorClass + '">' + inner + '</span>'
+		inner = '<span class="h' + color.substr(1) + '">' + inner + '</span>'
 	}
 
 	// new lines get a double-tab beforehand
@@ -91,18 +94,11 @@ shana.html +=	"\t" + '</pre>' + "\n" +
 	'</body>' + "\n" +
 	'</html>'
 
-fs.writeFileSync('./shana2_externalcss.html', shana.html)
-//delete shana.html
-
-fs.writeFileSync('./shana_colors.json', JSON.stringify(colors, null, '  '))
+fs.writeFileSync('./' + fileName + '_externalcss.html', shana.html.replace(/%style%/, '<link href="' + fileName + '.css" rel="stylesheet">'))
+fs.writeFileSync('./' + fileName + '_colors.json', JSON.stringify(colors, null, '  '))
 Object.keys(colors).forEach(function(color) {
-	if(color === '#fff') {
-		return
-	}
-	let tColor = color.substr(1)
-	shana.css += 'span.h' + tColor + '{color:' + color + '}'
+	shana.css += 'span.h' + color.substr(1) + '{color:' + color + '}'
 })
 
-fs.writeFileSync('./shana2.css', shana.css)
-
-fs.writeFileSync('./shana2.html', shana.html.replace(/%style%/, shana.css))
+fs.writeFileSync('./' + fileName + '.css', shana.css)
+fs.writeFileSync('./' + fileName + '.html', shana.html.replace(/%style%/, '<style>' + shana.css + '</style>'))

@@ -9,3 +9,13 @@ relies on http://www.text-image.com/convert/ to do the legwork in converting the
 install iojs or something that has some semblance of ES6 support.
 
 `node shana` when in the repo directory, and pray.  avert eyes when running script, it's using regex to modify/parse html and may summon zalgo.
+
+### example
+
+Original image:
+
+![Original image](/shana2.jpg)
+
+Screenshot of rendered HTML (Mozilla Firefox):
+
+![Screenshot of render](/shana2_example.png)
